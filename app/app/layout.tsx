@@ -8,7 +8,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="bg-white border-b border-gray-100 px-6 py-4 shadow-sm flex items-center justify-between">
+      <header className="bg-white border-b border-gray-100 px-4 py-3 shadow-sm flex items-center justify-between gap-3">
         <h1 className="text-base font-semibold text-gray-900 tracking-tight">
           Conor McKenna · Work Hub
         </h1>
@@ -31,7 +31,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         )}
       </header>
       <TabNav />
-      <main className="flex-1 p-8 max-w-6xl mx-auto w-full">{children}</main>
+      <main className="flex-1 p-4 sm:p-8 max-w-6xl mx-auto w-full">{children}</main>
     </div>
   );
 }

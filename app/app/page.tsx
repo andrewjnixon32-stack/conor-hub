@@ -153,7 +153,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-semibold text-gray-900">Dashboard</h2>
           <p className="text-sm text-gray-500 mt-1">
@@ -173,7 +173,7 @@ export default function DashboardPage() {
         <p className="text-sm text-gray-500">{scanMsg}</p>
       )}
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: "Open Follow-ups", value: "—" },
           { label: "Commissions This Month", value: "—" },
