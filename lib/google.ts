@@ -20,6 +20,7 @@ export function getAuthUrl(client: OAuth2Client): string {
   return client.generateAuthUrl({
     access_type: "offline",
     scope: SCOPES,
+    prompt: "consent", // Always get a refresh token
   });
 }
 
@@ -30,12 +31,30 @@ export function getAuthenticatedClient(tokens: object): OAuth2Client {
 }
 
 export async function getClientFromCookies(
-  cookieValue: string | null
+  cookieValue: string | null,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cookieStore?: any
 ): Promise<OAuth2Client | null> {
   if (!cookieValue) return null;
   try {
     const tokens = JSON.parse(decodeURIComponent(cookieValue));
-    return getAuthenticatedClient(tokens);
+    const client = getAuthenticatedClient(tokens);
+
+    // Auto-save refreshed tokens back to cookie
+    if (cookieStore) {
+      client.on("tokens", (newTokens) => {
+        const merged = { ...tokens, ...newTokens };
+        cookieStore.set("google_tokens", JSON.stringify(merged), {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 60 * 60 * 24 * 365,
+          path: "/",
+        });
+      });
+    }
+
+    return client;
   } catch {
     return null;
   }
